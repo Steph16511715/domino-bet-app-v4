@@ -1,0 +1,299 @@
+
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+  Dimensions,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+
+const { width, height } = Dimensions.get('window');
+
+export default function HomeScreen({ navigation }) {
+  return (
+    <ScrollView style={styles.container}>
+      <LinearGradient
+        colors={['#1a472a', '#2d5a3d', '#0f2419']}
+        style={styles.gradient}
+      >
+        {/* Header Section */}
+        <View style={styles.header}>
+          <Text style={styles.welcomeText}>Byenvini nan</Text>
+          <Text style={styles.titleText}>DOMINO BET HAITI</Text>
+          <Text style={styles.subtitleText}>Jwe ak kòb, genyen ak konfyans</Text>
+        </View>
+
+        {/* Domino Visual */}
+        <View style={styles.dominoContainer}>
+          <View style={styles.domino}>
+            <View style={styles.dominoHalf}>
+              <View style={[styles.dot, styles.dot1]} />
+              <View style={[styles.dot, styles.dot2]} />
+              <View style={[styles.dot, styles.dot3]} />
+            </View>
+            <View style={styles.dominoLine} />
+            <View style={styles.dominoHalf}>
+              <View style={[styles.dot, styles.dot4]} />
+              <View style={[styles.dot, styles.dot5]} />
+              <View style={[styles.dot, styles.dot6]} />
+            </View>
+          </View>
+        </View>
+
+        {/* Stats Section */}
+        <View style={styles.statsContainer}>
+          <View style={styles.statBox}>
+            <Ionicons name="people" size={24} color="#4ade80" />
+            <Text style={styles.statNumber}>1,247</Text>
+            <Text style={styles.statLabel}>Jwè Aktif</Text>
+          </View>
+          <View style={styles.statBox}>
+            <Ionicons name="trophy" size={24} color="#fbbf24" />
+            <Text style={styles.statNumber}>₵52,890</Text>
+            <Text style={styles.statLabel}>Kòb yo Genyen</Text>
+          </View>
+          <View style={styles.statBox}>
+            <Ionicons name="flash" size={24} color="#fb7185" />
+            <Text style={styles.statNumber}>24/7</Text>
+            <Text style={styles.statLabel}>Disponib</Text>
+          </View>
+        </View>
+
+        {/* Action Buttons */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.primaryButton}
+            onPress={() => navigation.navigate('Login')}
+          >
+            <LinearGradient
+              colors={['#4ade80', '#22c55e']}
+              style={styles.buttonGradient}
+            >
+              <Ionicons name="play" size={24} color="white" />
+              <Text style={styles.buttonText}>Kòmanse Jwe</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.secondaryButton}
+            onPress={() => navigation.navigate('Payment')}
+          >
+            <Ionicons name="wallet" size={24} color="#4ade80" />
+            <Text style={styles.secondaryButtonText}>Depo Kòb</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.secondaryButton}
+            onPress={() => navigation.navigate('Game')}
+          >
+            <Ionicons name="eye" size={24} color="#4ade80" />
+            <Text style={styles.secondaryButtonText}>Gade Jèn yo</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Rules Section */}
+        <View style={styles.rulesContainer}>
+          <Text style={styles.rulesTitle}>Règleman yo</Text>
+          <View style={styles.ruleItem}>
+            <Ionicons name="checkmark-circle" size={20} color="#4ade80" />
+            <Text style={styles.ruleText}>Minimum bet: 100 goud</Text>
+          </View>
+          <View style={styles.ruleItem}>
+            <Ionicons name="checkmark-circle" size={20} color="#4ade80" />
+            <Text style={styles.ruleText}>Maximum bet: 10,000 goud</Text>
+          </View>
+          <View style={styles.ruleItem}>
+            <Ionicons name="checkmark-circle" size={20} color="#4ade80" />
+            <Text style={styles.ruleText}>Peyman yo rapid ak sikilè</Text>
+          </View>
+          <View style={styles.ruleItem}>
+            <Ionicons name="checkmark-circle" size={20} color="#4ade80" />
+            <Text style={styles.ruleText}>Sipò kliyè 24/7</Text>
+          </View>
+        </View>
+
+        {/* Footer */}
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>
+            © 2025 Domino Bet Haiti - Jwe ak responsabilite
+          </Text>
+        </View>
+      </LinearGradient>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  gradient: {
+    minHeight: height,
+    paddingHorizontal: 20,
+  },
+  header: {
+    alignItems: 'center',
+    paddingTop: 40,
+    paddingBottom: 30,
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: '#94a3b8',
+    marginBottom: 5,
+  },
+  titleText: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  subtitleText: {
+    fontSize: 14,
+    color: '#94a3b8',
+    textAlign: 'center',
+  },
+  dominoContainer: {
+    alignItems: 'center',
+    marginVertical: 30,
+  },
+  domino: {
+    width: 120,
+    height: 60,
+    backgroundColor: '#f8fafc',
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+  dominoHalf: {
+    flex: 1,
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+  },
+  dominoLine: {
+    width: 2,
+    height: '80%',
+    backgroundColor: '#334155',
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#1e293b',
+    position: 'absolute',
+  },
+  dot1: { top: 8, left: 8 },
+  dot2: { top: 26, left: 26 },
+  dot3: { bottom: 8, right: 8 },
+  dot4: { top: 8, left: 26 },
+  dot5: { bottom: 8, left: 8 },
+  dot6: { top: 26, right: 8 },
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 40,
+  },
+  statBox: {
+    alignItems: 'center',
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 12,
+    paddingVertical: 20,
+    marginHorizontal: 5,
+  },
+  statNumber: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginTop: 5,
+  },
+  statLabel: {
+    fontSize: 12,
+    color: '#94a3b8',
+    marginTop: 2,
+  },
+  buttonContainer: {
+    marginBottom: 40,
+  },
+  primaryButton: {
+    marginBottom: 15,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  buttonGradient: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  secondaryButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#4ade80',
+    marginBottom: 10,
+  },
+  secondaryButtonText: {
+    color: '#4ade80',
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 10,
+  },
+  rulesContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 30,
+  },
+  rulesTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 15,
+  },
+  ruleItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  ruleText: {
+    color: '#94a3b8',
+    marginLeft: 10,
+    fontSize: 14,
+  },
+  footer: {
+    alignItems: 'center',
+    paddingBottom: 30,
+  },
+  footerText: {
+    color: '#64748b',
+    fontSize: 12,
+    textAlign: 'center',
+  },
+});
