@@ -1,0 +1,366 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
+
+export default function LoginScreen({ navigation }) {
+  const [isLogin, setIsLogin] = useState(true);
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    confirmPassword: '',
+    phone: '',
+  });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleSubmit = () => {
+    if (isLogin) {
+      // Login logic
+      if (!formData.username || !formData.password) {
+        Alert.alert('Erè', 'Tanpri antre username ak password ou');
+        return;
+      }
+      
+      // Simulate login success
+      Alert.alert(
+        'Siksè!', 
+        'Ou konekte ak siksè!',
+        [{ text: 'OK', onPress: () => navigation.navigate('Game') }]
+      );
+    } else {
+      // Register logic
+      if (!formData.username || !formData.password || !formData.confirmPassword || !formData.phone) {
+        Alert.alert('Erè', 'Tanpri ranpli tout enfòmasyon yo');
+        return;
+      }
+      
+      if (formData.password !== formData.confirmPassword) {
+        Alert.alert('Erè', 'Password yo pa menm');
+        return;
+      }
+
+      if (formData.phone.length < 8) {
+        Alert.alert('Erè', 'Nimewo telefòn an pa valid');
+        return;
+      }
+
+      // Simulate registration success
+      Alert.alert(
+        'Siksè!', 
+        'Kont ou kreye ak siksè!',
+        [{ text: 'OK', onPress: () => setIsLogin(true) }]
+      );
+    }
+  };
+
+  const updateFormData = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  return (
+    <KeyboardAvoidingView 
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <LinearGradient
+        colors={['#1a472a', '#2d5a3d', '#0f2419']}
+        style={styles.gradient}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.iconContainer}>
+              <Ionicons name="person-circle" size={80} color="#4ade80" />
+            </View>
+            <Text style={styles.title}>
+              {isLogin ? 'Konekte' : 'Kreye Kont'}
+            </Text>
+            <Text style={styles.subtitle}>
+              {isLogin ? 'Konekte nan kont ou' : 'Ouvè yon nouvo kont'}
+            </Text>
+          </View>
+
+          {/* Form */}
+          <View style={styles.formContainer}>
+            {/* Username */}
+            <View style={styles.inputContainer}>
+              <Ionicons name="person" size={20} color="#94a3b8" style={styles.inputIcon} />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Username"
+                placeholderTextColor="#94a3b8"
+                value={formData.username}
+                onChangeText={(text) => updateFormData('username', text)}
+                autoCapitalize="none"
+              />
+            </View>
+
+            {/* Phone (only for registration) */}
+            {!isLogin && (
+              <View style={styles.inputContainer}>
+                <Ionicons name="call" size={20} color="#94a3b8" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Nimewo Telefòn (3X XX XX XX)"
+                  placeholderTextColor="#94a3b8"
+                  value={formData.phone}
+                  onChangeText={(text) => updateFormData('phone', text)}
+                  keyboardType="phone-pad"
+                />
+              </View>
+            )}
+
+            {/* Password */}
+            <View style={styles.inputContainer}>
+              <Ionicons name="lock-closed" size={20} color="#94a3b8" style={styles.inputIcon} />
+              <TextInput
+                style={[styles.textInput, { flex: 1 }]}
+                placeholder="Password"
+                placeholderTextColor="#94a3b8"
+                value={formData.password}
+                onChangeText={(text) => updateFormData('password', text)}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity
+                onPress={() => setShowPassword(!showPassword)}
+                style={styles.eyeIcon}
+              >
+                <Ionicons 
+                  name={showPassword ? "eye-off" : "eye"} 
+                  size={20} 
+                  color="#94a3b8" 
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Confirm Password (only for registration) */}
+            {!isLogin && (
+              <View style={styles.inputContainer}>
+                <Ionicons name="lock-closed" size={20} color="#94a3b8" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Konfime Password"
+                  placeholderTextColor="#94a3b8"
+                  value={formData.confirmPassword}
+                  onChangeText={(text) => updateFormData('confirmPassword', text)}
+                  secureTextEntry={!showPassword}
+                />
+              </View>
+            )}
+
+            {/* Submit Button */}
+            <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+              <LinearGradient
+                colors={['#4ade80', '#22c55e']}
+                style={styles.buttonGradient}
+              >
+                <Text style={styles.submitButtonText}>
+                  {isLogin ? 'Konekte' : 'Kreye Kont'}
+                </Text>
+              </LinearGradient>
+            </TouchableOpacity>
+
+            {/* Toggle Form */}
+            <View style={styles.toggleContainer}>
+              <Text style={styles.toggleText}>
+                {isLogin ? "Ou pa gen kont?" : "Ou gen yon kont deja?"}
+              </Text>
+              <TouchableOpacity onPress={() => setIsLogin(!isLogin)}>
+                <Text style={styles.toggleLink}>
+                  {isLogin ? "Kreye youn" : "Konekte"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Quick Login Options */}
+            {isLogin && (
+              <View style={styles.quickLoginContainer}>
+                <Text style={styles.quickLoginTitle}>Oswa konekte ak:</Text>
+                <View style={styles.quickLoginButtons}>
+                  <TouchableOpacity style={styles.quickLoginButton}>
+                    <Ionicons name="logo-google" size={24} color="#ea4335" />
+                    <Text style={styles.quickLoginText}>Google</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.quickLoginButton}>
+                    <Ionicons name="logo-facebook" size={24} color="#1877f2" />
+                    <Text style={styles.quickLoginText}>Facebook</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+
+            {/* Forgot Password */}
+            {isLogin && (
+              <TouchableOpacity style={styles.forgotPassword}>
+                <Text style={styles.forgotPasswordText}>
+                  Ou bliye password ou?
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          {/* Demo Credentials */}
+          <View style={styles.demoContainer}>
+            <Text style={styles.demoTitle}>Test Account:</Text>
+            <Text style={styles.demoText}>Username: demo</Text>
+            <Text style={styles.demoText}>Password: 123456</Text>
+          </View>
+        </ScrollView>
+      </LinearGradient>
+    </KeyboardAvoidingView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  gradient: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  iconContainer: {
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#94a3b8',
+    textAlign: 'center',
+  },
+  formContainer: {
+    marginBottom: 30,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  inputIcon: {
+    marginRight: 12,
+  },
+  textInput: {
+    flex: 1,
+    color: '#fff',
+    fontSize: 16,
+  },
+  eyeIcon: {
+    padding: 5,
+  },
+  submitButton: {
+    marginTop: 20,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  buttonGradient: {
+    paddingVertical: 16,
+    alignItems: 'center',
+  },
+  submitButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  toggleText: {
+    color: '#94a3b8',
+    fontSize: 14,
+  },
+  toggleLink: {
+    color: '#4ade80',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 5,
+  },
+  quickLoginContainer: {
+    marginTop: 30,
+    alignItems: 'center',
+  },
+  quickLoginTitle: {
+    color: '#94a3b8',
+    fontSize: 14,
+    marginBottom: 15,
+  },
+  quickLoginButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+  },
+  quickLoginButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+    flex: 0.45,
+    justifyContent: 'center',
+  },
+  quickLoginText: {
+    color: '#fff',
+    marginLeft: 8,
+    fontSize: 14,
+  },
+  forgotPassword: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  forgotPasswordText: {
+    color: '#4ade80',
+    fontSize: 14,
+  },
+  demoContainer: {
+    backgroundColor: 'rgba(74, 222, 128, 0.1)',
+    borderRadius: 8,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: 'rgba(74, 222, 128, 0.3)',
+  },
+  demoTitle: {
+    color: '#4ade80',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  demoText: {
+    color: '#94a3b8',
+    fontSize: 12,
+  },
+});
